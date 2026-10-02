@@ -7,32 +7,17 @@
   <title>Sorteador de nombres</title>
   <style>
     :root {
-      --bg: #10243a;
-      --panel: #183552;
-      --ink: #f3f6fa;
-      --mute: #8fa8c2;
-      --acc: #ffd23f;
-      --acc-ink: #1b2a3a;
-      --line: #2c4d6e;
+      --bg: #eef3f8;
+      --panel: #fff;
+      --ink: #14263a;
+      --mute: #5d7590;
+      --acc: #ffc400;
+      --acc-ink: #14263a;
+      --line: #cfdbe8;
+      color-scheme: light;
       box-sizing: border-box;
       padding-top: env(safe-area-inset-top, 0px);
       padding-bottom: env(safe-area-inset-bottom, 0px)
-    }
-
-    @media (prefers-color-scheme:light) {
-      :root:not([data-theme="dark"]) {
-        --bg: #eef3f8;
-        --panel: #fff;
-        --ink: #14263a;
-        --mute: #5d7590;
-        --acc: #ffc400;
-        --acc-ink: #14263a;
-        --line: #cfdbe8
-      }
-    }
-
-    :root[data-theme="dark"] {
-      --bg: #10243a
     }
 
     * {
@@ -52,7 +37,7 @@
     }
 
     main {
-      max-width: 600px;
+      max-width: 90vw;
       margin: 0 auto;
       padding: 24px 16px 40px
     }
@@ -144,7 +129,7 @@
     }
 
     .item.winner {
-      color: var(--acc)
+      color: var(--ink)
     }
 
     .band {
@@ -159,7 +144,9 @@
     }
 
     .reelwrap {
-      position: relative
+      position: relative;
+      width: 90vw;
+      height: 60vh !important;
     }
 
     button {
@@ -181,7 +168,8 @@
       color: var(--ink);
       border: 1px solid var(--line);
       font-weight: 600;
-      font-size: 1rem
+      font-size: .6rem;
+      padding: 4px !important
     }
 
     button:disabled {
@@ -236,8 +224,14 @@
     </section>
 
     <!-- Vista 2: sorteo -->
-    <section class="card" id="draw" hidden>
-      <div class="top"><span id="left"></span><span>Sorteio</span></div>
+    <section id="draw" hidden style="padding: 0 !important;">
+      <div class="top">
+        <span id="left"></span>
+        <div>
+          <span>Sorteio</span>
+          <button class="ghost" id="back" style="width: 90px;">Editar nomes</button>
+        </div>
+      </div>
       <div class="reelwrap">
         <div class="win">
           <div class="track" id="track"></div>
@@ -250,7 +244,6 @@
         <h2>Ganadores</h2>
         <ol id="histList"></ol>
       </div>
-      <button class="ghost" id="back">Editar nomes</button>
     </section>
   </main>
 
@@ -288,7 +281,7 @@
     }
     function refresh() {
       const n = getNames().length;
-      $('count').textContent = n + (n === 1 ? ' nombre' : ' nombres');
+      $('count').textContent = n + (n === 1 ? ' nome' : ' nomes');
       $('next').disabled = n === 0;
     }
     function show(view) {
