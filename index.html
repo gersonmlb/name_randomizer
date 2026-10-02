@@ -1,162 +1,349 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Sorteador de nombres</title>
-<style>
-:root{--bg:#10243a;--panel:#183552;--ink:#f3f6fa;--mute:#8fa8c2;--acc:#ffd23f;--acc-ink:#1b2a3a;--line:#2c4d6e;
-box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
-@media (prefers-color-scheme:light){:root:not([data-theme="dark"]){--bg:#eef3f8;--panel:#fff;--ink:#14263a;--mute:#5d7590;--acc:#ffc400;--acc-ink:#14263a;--line:#cfdbe8}}
-:root[data-theme="dark"]{--bg:#10243a}
-*{box-sizing:border-box}
-html{scroll-padding-top:env(safe-area-inset-top,0px)}
-body{margin:0;min-height:100vh;background:var(--bg);color:var(--ink);font:16px/1.5 "Trebuchet MS","Segoe UI",system-ui,sans-serif}
-main{max-width:600px;margin:0 auto;padding:24px 16px 40px}
-h1{margin:0 0 16px;font-size:clamp(1.6rem,4vw,2.2rem);letter-spacing:-.5px}
-.card{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:18px}
-[hidden]{display:none!important}
-label{display:block;font-weight:700;margin-bottom:8px}
-textarea{width:100%;height:300px;resize:vertical;background:transparent;color:var(--ink);border:1px solid var(--line);border-radius:8px;padding:10px;font:inherit}
-textarea:focus,button:focus-visible,input:focus-visible{outline:3px solid var(--acc);outline-offset:2px}
-.opt{display:flex;gap:8px;align-items:center;margin-top:10px;color:var(--mute);font-weight:400}
-.count{color:var(--mute);font-size:.9rem;margin-top:6px}
-.win{position:relative;height:360px;overflow:hidden;border-radius:10px;background:rgba(0,0,0,.18);
--webkit-mask-image:linear-gradient(transparent,#000 28%,#000 72%,transparent);mask-image:linear-gradient(transparent,#000 28%,#000 72%,transparent)}
-.track{will-change:transform}
-.item{height:72px;display:flex;align-items:center;justify-content:center;font-size:1.8rem;font-weight:700;padding:0 14px;text-align:center;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;color:var(--mute)}
-.item.winner{color:var(--acc)}
-.band{position:absolute;left:0;right:0;top:144px;height:72px;border-block:3px solid var(--acc);background:rgba(255,210,63,.1);pointer-events:none}
-.reelwrap{position:relative}
-button{font:inherit;font-weight:800;border:0;border-radius:10px;padding:14px 20px;cursor:pointer;background:var(--acc);color:var(--acc-ink);width:100%;margin-top:14px;font-size:1.1rem}
-button.ghost{background:transparent;color:var(--ink);border:1px solid var(--line);font-weight:600;font-size:1rem}
-button:disabled{opacity:.5;cursor:not-allowed}
-.result{min-height:2.4em;text-align:center;font-size:1.3rem;margin-top:12px}
-.result b{color:var(--acc)}
-ol{margin:8px 0 0;padding-left:22px;color:var(--mute)}
-.hist h2{font-size:1rem;margin:16px 0 0}
-.top{display:flex;justify-content:space-between;align-items:center;color:var(--mute);font-size:.95rem;margin-bottom:12px}
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Sorteador de nombres</title>
+  <style>
+    :root {
+      --bg: #10243a;
+      --panel: #183552;
+      --ink: #f3f6fa;
+      --mute: #8fa8c2;
+      --acc: #ffd23f;
+      --acc-ink: #1b2a3a;
+      --line: #2c4d6e;
+      box-sizing: border-box;
+      padding-top: env(safe-area-inset-top, 0px);
+      padding-bottom: env(safe-area-inset-bottom, 0px)
+    }
+
+    @media (prefers-color-scheme:light) {
+      :root:not([data-theme="dark"]) {
+        --bg: #eef3f8;
+        --panel: #fff;
+        --ink: #14263a;
+        --mute: #5d7590;
+        --acc: #ffc400;
+        --acc-ink: #14263a;
+        --line: #cfdbe8
+      }
+    }
+
+    :root[data-theme="dark"] {
+      --bg: #10243a
+    }
+
+    * {
+      box-sizing: border-box
+    }
+
+    html {
+      scroll-padding-top: env(safe-area-inset-top, 0px)
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background: var(--bg);
+      color: var(--ink);
+      font: 16px/1.5 "Trebuchet MS", "Segoe UI", system-ui, sans-serif
+    }
+
+    main {
+      max-width: 600px;
+      margin: 0 auto;
+      padding: 24px 16px 40px
+    }
+
+    h1 {
+      margin: 0 0 16px;
+      font-size: clamp(1.6rem, 4vw, 2.2rem);
+      letter-spacing: -.5px
+    }
+
+    .card {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      padding: 18px
+    }
+
+    [hidden] {
+      display: none !important
+    }
+
+    label {
+      display: block;
+      font-weight: 700;
+      margin-bottom: 8px
+    }
+
+    textarea {
+      width: 100%;
+      height: 300px;
+      resize: vertical;
+      background: transparent;
+      color: var(--ink);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 10px;
+      font: inherit
+    }
+
+    textarea:focus,
+    button:focus-visible,
+    input:focus-visible {
+      outline: 3px solid var(--acc);
+      outline-offset: 2px
+    }
+
+    .opt {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+      margin-top: 10px;
+      color: var(--mute);
+      font-weight: 400
+    }
+
+    .count {
+      color: var(--mute);
+      font-size: .9rem;
+      margin-top: 6px
+    }
+
+    .win {
+      position: relative;
+      height: 360px;
+      overflow: hidden;
+      border-radius: 10px;
+      background: rgba(0, 0, 0, .18);
+      -webkit-mask-image: linear-gradient(transparent, #000 28%, #000 72%, transparent);
+      mask-image: linear-gradient(transparent, #000 28%, #000 72%, transparent)
+    }
+
+    .track {
+      will-change: transform
+    }
+
+    .item {
+      height: 72px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.8rem;
+      font-weight: 700;
+      padding: 0 14px;
+      text-align: center;
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      color: var(--mute)
+    }
+
+    .item.winner {
+      color: var(--acc)
+    }
+
+    .band {
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 144px;
+      height: 72px;
+      border-block: 3px solid var(--acc);
+      background: rgba(255, 210, 63, .1);
+      pointer-events: none
+    }
+
+    .reelwrap {
+      position: relative
+    }
+
+    button {
+      font: inherit;
+      font-weight: 800;
+      border: 0;
+      border-radius: 10px;
+      padding: 14px 20px;
+      cursor: pointer;
+      background: var(--acc);
+      color: var(--acc-ink);
+      width: 100%;
+      margin-top: 14px;
+      font-size: 1.1rem
+    }
+
+    button.ghost {
+      background: transparent;
+      color: var(--ink);
+      border: 1px solid var(--line);
+      font-weight: 600;
+      font-size: 1rem
+    }
+
+    button:disabled {
+      opacity: .5;
+      cursor: not-allowed
+    }
+
+    .result {
+      min-height: 2.4em;
+      text-align: center;
+      font-size: 1.3rem;
+      margin-top: 12px
+    }
+
+    .result b {
+      color: var(--acc)
+    }
+
+    ol {
+      margin: 8px 0 0;
+      padding-left: 22px;
+      color: var(--mute)
+    }
+
+    .hist h2 {
+      font-size: 1rem;
+      margin: 16px 0 0
+    }
+
+    .top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      color: var(--mute);
+      font-size: .95rem;
+      margin-bottom: 12px
+    }
+  </style>
 </head>
+
 <body>
-<main>
-<h1>Sorteador de nombres</h1>
+  <main>
+    <h1>Sorteador de nombres</h1>
 
-<!-- Vista 1: nombres -->
-<section class="card" id="setup">
-  <label for="names">Nombres (uno por línea)</label>
-  <textarea id="names" placeholder="Ana&#10;Luis&#10;María"></textarea>
-  <div class="count" id="count"></div>
-  <label class="opt"><input type="checkbox" id="noRepeat" checked> No repetir ganadores</label>
-  <button id="next">Ir al sorteo</button>
-</section>
+    <!-- Vista 1: nombres -->
+    <section class="card" id="setup">
+      <label for="names">Nomes (um por linha)</label>
+      <textarea id="names" placeholder="Ana&#10;Luis&#10;María"></textarea>
+      <div class="count" id="count"></div>
+      <label class="opt"><input type="checkbox" id="noRepeat" checked> Não repetir ganhadores</label>
+      <button id="next">Ir al sorteo</button>
+    </section>
 
-<!-- Vista 2: sorteo -->
-<section class="card" id="draw" hidden>
-  <div class="top"><span id="left"></span><span>Sorteo</span></div>
-  <div class="reelwrap">
-    <div class="win"><div class="track" id="track"></div></div>
-    <div class="band"></div>
-  </div>
-  <button id="go">Sortear</button>
-  <div class="result" id="result" aria-live="polite"></div>
-  <div class="hist" id="hist" hidden>
-    <h2>Ganadores</h2>
-    <ol id="histList"></ol>
-  </div>
-  <button class="ghost" id="back">Editar nombres</button>
-</section>
-</main>
+    <!-- Vista 2: sorteo -->
+    <section class="card" id="draw" hidden>
+      <div class="top"><span id="left"></span><span>Sorteio</span></div>
+      <div class="reelwrap">
+        <div class="win">
+          <div class="track" id="track"></div>
+        </div>
+        <div class="band"></div>
+      </div>
+      <button id="go">Sortear</button>
+      <div class="result" id="result" aria-live="polite"></div>
+      <div class="hist" id="hist" hidden>
+        <h2>Ganadores</h2>
+        <ol id="histList"></ol>
+      </div>
+      <button class="ghost" id="back">Editar nomes</button>
+    </section>
+  </main>
 
-<script>
-const H = 72, MID = 2;
-const $ = id => document.getElementById(id);
-const track = $('track'), go = $('go'), result = $('result');
-const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
-let spinning = false, won = [];
+  <script>
+    const H = 72, MID = 2;
+    const $ = id => document.getElementById(id);
+    const track = $('track'), go = $('go'), result = $('result');
+    const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    let spinning = false, won = [];
 
-function getNames() {
-  const seen = new Set();
-  return $('names').value.split('\n').map(s => s.trim()).filter(s => s && !seen.has(s.toLowerCase()) && seen.add(s.toLowerCase()));
-}
-function available() {
-  const all = getNames();
-  return $('noRepeat').checked ? all.filter(n => !won.includes(n)) : all;
-}
-function render(list, winIdx = -1) {
-  track.innerHTML = '';
-  list.forEach((n, i) => {
-    const d = document.createElement('div');
-    d.className = 'item' + (i === winIdx ? ' winner' : '');
-    d.textContent = n;
-    track.appendChild(d);
-  });
-}
-function idle() {
-  const base = getNames();
-  const list = [];
-  for (let i = 0; i < Math.max(7, base.length); i++) list.push(base[i % base.length]);
-  track.style.transition = 'none';
-  track.style.transform = `translateY(${MID * H}px)`;
-  render(list);
-}
-function refresh() {
-  const n = getNames().length;
-  $('count').textContent = n + (n === 1 ? ' nombre' : ' nombres');
-  $('next').disabled = n === 0;
-}
-function show(view) {
-  $('setup').hidden = view !== 'setup';
-  $('draw').hidden = view !== 'draw';
-}
-function updateLeft() {
-  const a = available().length;
-  $('left').textContent = a + (a === 1 ? ' participante' : ' participantes');
-  go.disabled = a === 0;
-}
+    function getNames() {
+      const seen = new Set();
+      return $('names').value.split('\n').map(s => s.trim()).filter(s => s && !seen.has(s.toLowerCase()) && seen.add(s.toLowerCase()));
+    }
+    function available() {
+      const all = getNames();
+      return $('noRepeat').checked ? all.filter(n => !won.includes(n)) : all;
+    }
+    function render(list, winIdx = -1) {
+      track.innerHTML = '';
+      list.forEach((n, i) => {
+        const d = document.createElement('div');
+        d.className = 'item' + (i === winIdx ? ' winner' : '');
+        d.textContent = n;
+        track.appendChild(d);
+      });
+    }
+    function idle() {
+      const base = getNames();
+      const list = [];
+      for (let i = 0; i < Math.max(7, base.length); i++) list.push(base[i % base.length]);
+      track.style.transition = 'none';
+      track.style.transform = `translateY(${MID * H}px)`;
+      render(list);
+    }
+    function refresh() {
+      const n = getNames().length;
+      $('count').textContent = n + (n === 1 ? ' nombre' : ' nombres');
+      $('next').disabled = n === 0;
+    }
+    function show(view) {
+      $('setup').hidden = view !== 'setup';
+      $('draw').hidden = view !== 'draw';
+    }
+    function updateLeft() {
+      const a = available().length;
+      $('left').textContent = a + (a === 1 ? ' participante' : ' participantes');
+      go.disabled = a === 0;
+    }
 
-function spin() {
-  const pool = available();
-  if (!pool.length || spinning) return;
-  spinning = true; go.disabled = true; $('back').disabled = true; result.textContent = '';
-  const winner = pool[Math.floor(Math.random() * pool.length)];
-  const all = getNames();
-  const L = 50, W = 45;
-  const off = all.indexOf(winner) - W;
-  const list = [];
-  for (let i = 0; i < L; i++) list.push(all[(((i + off) % all.length) + all.length) % all.length]);
-  track.style.transition = 'none';
-  track.style.transform = `translateY(${MID * H}px)`;
-  render(list);
-  track.getBoundingClientRect();
-  const dur = reduce ? 600 : 5500;
-  track.style.transition = `transform ${dur}ms cubic-bezier(.12,.55,.12,1)`;
-  track.style.transform = `translateY(${(MID - W) * H}px)`;
-  setTimeout(() => {
-    track.children[W].classList.add('winner');
-    result.innerHTML = '🎉 Ganador: <b></b>';
-    result.querySelector('b').textContent = winner;
-    won.push(winner);
-    const li = document.createElement('li');
-    li.textContent = winner;
-    $('histList').appendChild(li);
-    $('hist').hidden = false;
-    spinning = false;
-    $('back').disabled = false;
-    updateLeft();
-    if (go.disabled) result.insertAdjacentHTML('beforeend', '<div class="count">Ya salieron todos. Edita los nombres o desactiva "No repetir ganadores".</div>');
-  }, dur + 100);
-}
+    function spin() {
+      const pool = available();
+      if (!pool.length || spinning) return;
+      spinning = true; go.disabled = true; $('back').disabled = true; result.textContent = '';
+      const winner = pool[Math.floor(Math.random() * pool.length)];
+      const all = getNames();
+      const L = 50, W = 45;
+      const off = all.indexOf(winner) - W;
+      const list = [];
+      for (let i = 0; i < L; i++) list.push(all[(((i + off) % all.length) + all.length) % all.length]);
+      track.style.transition = 'none';
+      track.style.transform = `translateY(${MID * H}px)`;
+      render(list);
+      track.getBoundingClientRect();
+      const dur = reduce ? 600 : 5500;
+      track.style.transition = `transform ${dur}ms cubic-bezier(.12,.55,.12,1)`;
+      track.style.transform = `translateY(${(MID - W) * H}px)`;
+      setTimeout(() => {
+        track.children[W].classList.add('winner');
+        result.innerHTML = '🎉 Ganador: <b></b>';
+        result.querySelector('b').textContent = winner;
+        won.push(winner);
+        const li = document.createElement('li');
+        li.textContent = winner;
+        $('histList').appendChild(li);
+        $('hist').hidden = false;
+        spinning = false;
+        $('back').disabled = false;
+        updateLeft();
+        if (go.disabled) result.insertAdjacentHTML('beforeend', '<div class="count">Ya salieron todos. Edita los nombres o desactiva "No repetir ganadores".</div>');
+      }, dur + 100);
+    }
 
-$('next').addEventListener('click', () => {
-  if (!getNames().length) return;
-  result.textContent = '';
-  idle(); updateLeft(); show('draw');
-});
-$('back').addEventListener('click', () => { if (!spinning) show('setup'); });
-$('names').addEventListener('input', refresh);
-go.addEventListener('click', spin);
-refresh();
-</script>
+    $('next').addEventListener('click', () => {
+      if (!getNames().length) return;
+      result.textContent = '';
+      idle(); updateLeft(); show('draw');
+    });
+    $('back').addEventListener('click', () => { if (!spinning) show('setup'); });
+    $('names').addEventListener('input', refresh);
+    go.addEventListener('click', spin);
+    refresh();
+  </script>
 </body>
+
 </html>
